@@ -6,7 +6,7 @@ const dataSchema = new mongoose.Schema({
 
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        default: mongoose.Types.ObjectId,
         ref: "user"
     },
     mes: {
@@ -21,12 +21,12 @@ const dataSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    entrada: {
-        type: String,
+    entradas: {
+        type: Number,
         required: false
     },
-    saida: {
-        type: String,
+    saidas: {
+        type: Number,
         required: false
     }
 }, {timestamps : true });

@@ -11,13 +11,12 @@ const all = async (req, res) => {
   try {
     const allMonths = await DiceSchema.find()
     res.status(200).json({
-      statusCode: 200,
-      message: 'Informações carregadas com sucesso!'
+      message: 'Informações carregadas com sucesso!',
+      allMonths
     })
 
   } catch (error) {
     res.status(400).json({
-      statusCode: 400,
       message: error.message
     })
   }
@@ -27,101 +26,123 @@ const searchData = async (req, res) => {
   try {
     const data = await DiceSchema.find()
     res.status(200).json({
-      statusCode: 200,
       message: 'Informações carregadas com sucesso!',
 
     })
   } catch (error) {
     res.status(400).json({
-      statusCode: 400,
       message: error.message
     })
   }
 }
 const create = async (req, res) => {
-  const { mes, data, produto, entrada, saida } = req.body;
+  const { mes, data, produto, entradas, saidas } = req.body;
 
   try {
-    const newData = new dataSchema({
-      mes: req.body.mês,
-      data: req.body.data,
-      produto: req.body.produto,
-      entrad: req.body.entrada,
-      saida: req.body.saida,
-    
-    })
-
+    const newData = new dataSchema(req.body)
     const savedData = await newData.save();
+
+    const fluxoDeCaixa = {
+      userId: savedData.userId,
+      mes: savedData.mes,
+      data: savedData.data,
+      produto: savedData.produto,
+      entradas: savedData.entradas,
+      saidas: savedData.saidas,
+    }
     return res.status(201).json({
-      statusCode: 201,
       message: `Criado com sucesso`,
-    
+      fluxoDeCaixa
     })
   } catch (error) {
     res.status(400).json({
-      statusCode: 400,
       message: error.message
     })
   }
 }
 
 const update = async (req, res) => {
-  const { mes, data, produto, entrada, saida } = req.body;
-  const id = req.params.id
+  const { mes, data, produto, entradas, saidas } = req.body;
+  const { userId } = req.params
   try {
-    const findData = await DiceSchema.findById(id)
-
-    if (!findData) return res.status(404).json({
-      statusCode: 404,
-      message: `Registro ${id} não encontrado`
+    const savedData = await DiceSchema.find({userId}).updateOne({
+      mes, data, produto, entradas, saidas
     })
 
-    findData.mes = mes || findData.mes
-    findData.data = data || findData.data
-    findData.produto = produto || findData.produto
-    findData.entrada = entrada || findData.entrada
-    findData.saida = saida || findData.saida
+    const dateAtualizada = await DiceSchema.find({
+      userId 
+    })
+    
+    const fluxoDeCaixa = {
+      userId: dateAtualizada[0].userId,
+      mes: dateAtualizada[0].mes,
+      data: dateAtualizada[0].data,
+      produto: dateAtualizada[0].produto,
+      entradas: dateAtualizada[0].entradas,
+      saidas: dateAtualizada[0].saidas,
+    }
 
-    const updatedData = await findData.save()
+    if (fluxoDeCaixa.length == 0) 
+      return res.status(404).json({
+      message: `Registro ${userId} não encontrado`
+    })
 
     return res.status(200).json({
-      statusCode: 200,
       message: `Registro atualizado com sucesso`,
+      fluxoDeCaixa
 
     })
 
   } catch (error) {
     res.status(500).json({
-      statusCode: 500,
       message: error.message
     })
   }
 }
 
 const remove = async (req, res) => {
-  const { id } = req.params
+  const { userId } = req.params
 
   try {
-    const findData = await findData.findById(id)
+    const findData = await DiceSchema.deleteOne({userId})
 
     if (!findData) return res.status(404).json({
-      statusCode: 404,
-      message: `Registro ${id} não encontrado`
+      message: `Registro ${userId} não encontrado`
     })
 
-    await findData.delete()
-
     return res.status(200).json({
-      statusCode: 200,
       message: `Registro deletado com sucesso`
     })
 
   } catch (error) {
     res.status(500).json({
-      statusCode: 500,
       message: error.message
     })
   }
 }
 
-module.exports = { all, searchData, create, update, remove }
+const calcularValores = async (request, response) => {
+  const { mes } = request.params;
+  try {
+    const buscarMes = await DiceSchema.find({ mes });
+
+    let valorEntradas = 0;
+    let valorSaidas = 0
+    let valorFinal = 0
+
+    buscarMes.forEach((a) => {
+      valorEntradas  += a.entradas;
+      valorSaidas += a.saidas;
+      valorFinal += a.entradas - a.saidas
+
+    });
+
+    response.status(200).json({ Mês: `${mes}: ` + `Entradas: ` + valorEntradas.toFixed(2) + `  Saídas: ` + valorSaidas.toFixed(2) + `  Valor final: ` + valorFinal.toFixed(2)});
+  } catch (error) {
+    response.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { all, searchData, create, update, remove, calcularValores}

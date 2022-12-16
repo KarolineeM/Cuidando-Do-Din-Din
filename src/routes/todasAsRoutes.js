@@ -13,8 +13,9 @@ router.post("/login", authcontroller.login);
 
 router.get("/all-mes", controllers.all);
 router.get("/searchDate", controllers.searchData);
+router.get("/valores/:mes", controllers.calcularValores);
 router.post("/create", controllers.create);
-router.put("/update/:id", controllers.update);
-router.delete("/delete/:id", controllers.remove);
+router.put("/update/:userId", controllers.update);
+router.delete("/delete/:userId", controllers.remove);
 
 module.exports = router;
