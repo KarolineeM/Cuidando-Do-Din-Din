@@ -12,7 +12,7 @@ router.post("/createUser", controller.createUser);
 router.post("/login", authcontroller.login);
 
 router.get("/all-mes", controllers.all);
-router.get("/searchDate", controllers.searchData);
+router.get("/searchDate/:mes", controllers.searchData);
 router.get("/valores/:mes", controllers.calcularValores);
 router.post("/create", controllers.create);
 router.put("/update/:userId", controllers.update);

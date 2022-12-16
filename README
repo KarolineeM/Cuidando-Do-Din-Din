@@ -1,0 +1,56 @@
+# BEM VINDOS AO PROJETO CUIDANDO DO DIN-DIN.
+
+Projeto desenvolvido para conclusão de curso "Todas em Tech" da {reprograma}.
+
+# JUSTIFICATIVA:
+
+Em minha vida, sempre se fez muito presente os trabalhos autônomos, seja por parentes como minha mãe, avó, tias e tios ou por amigos próximos, devido a esse convívio experiencie a falta de ferramentas simples que não geração confusão e após um período até desistência do uso. Nesse sentido
+
+# SOBRE A API:
+
+Esse projeto foi pensado para ajudar empreendedores autônomos que em grande parte não tem um conhecimento abrangente sobre cuidado/controle financeiro. A ideia é o desenvolvimento com simplicidade, sem palavras difíceis para que os empreendedores utilizam entendendo o que estão fazendo e tendo um retorno das informações aplicadas ali. Na mesma, é possível se registrar com seu login para que assim tenha um espaço onde todas as suas informações ficaram salvas e possam ser acessadas e/ou atualizadas posteriormente.
+
+# FUNCIONALIDADES:
+
+Cadastramento de usuário;
+Login para ter acesso aos seus dados;
+Cadastro, atualização e exclusão de registros;
+Listar todos os registro;
+Pesquisar por data ou mês;
+Somar, subtrair os valores de cada mês registrados;
+
+# MÉTODOS:
+
+Desenvolvida utilizando javaScript e Node.js, utilizando banco de dados MongoDb e utilizando o Insomnia para teste de rotas.
+
+# TECNOLOGIAS E PACOTES UTILIZADOS:
+
+TECNOLOGIAS 
+
+Git
+Github
+JavaScript
+MongoDB Atlas
+Node.js
+Insomnia
+Vscode
+
+PACOTES
+
+Express
+Cors
+Dotenv
+Mongoose
+Nodemon
+
+# ROTAS
+
+PARA REALIZAR A INSTALAÇÃO NO SEU COMPUTADOR:
+1. Primeiro é necessário clonar o seguinte repositório
+ $ git clone link
+2. Entre na seguinte pasta
+ $ cd Projeto
+3.Para prosseguir é necessário baixar as dependências
+ $ npm install
+4. Inicie o projeto com o comando
+ $ npm run dev

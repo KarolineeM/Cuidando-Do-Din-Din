@@ -8,8 +8,14 @@ const dataSchema = require("../models/dataSchema")
 const DiceSchema = require("../models/dataSchema.js")
 
 const all = async (req, res) => {
+  const { mes } = req.params;
   try {
-    const allMonths = await DiceSchema.find()
+    const allMonths = await DiceSchema.find({mes});
+    let mesesregistrados = 0;
+
+    buscarMes.forEach((a) => {
+      mesesregistrados = mesesregistrados
+    })
     res.status(200).json({
       message: 'Informações carregadas com sucesso!',
       allMonths
